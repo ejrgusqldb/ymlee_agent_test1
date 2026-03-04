@@ -1,14 +1,106 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <title>로또 번호 추첨기</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      width: 350px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .numbers {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+      min-height: 60px;
+    }
+
+    .ball {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: #667eea;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #5a67d8;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <div class="container">
+    <h1>🎱 로또 번호 추첨기</h1>
+    <div class="numbers" id="numbers"></div>
+    <button onclick="generateLotto()">번호 추첨하기</button>
+  </div>
+
+  <script>
+    function generateLotto() {
+      const numbersContainer = document.getElementById('numbers');
+      numbersContainer.innerHTML = '';
+
+      const numbers = new Set();
+      while (numbers.size < 6) {
+        const randomNum = Math.floor(Math.random() * 45) + 1;
+        numbers.add(randomNum);
+      }
+
+      const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+
+      sortedNumbers.forEach(num => {
+        const ball = document.createElement('div');
+        ball.className = 'ball';
+        ball.textContent = num;
+        ball.style.backgroundColor = getBallColor(num);
+        numbersContainer.appendChild(ball);
+      });
+    }
+
+    function getBallColor(num) {
+      if (num <= 10) return '#fbc400';
+      if (num <= 20) return '#69c8f2';
+      if (num <= 30) return '#ff7272';
+      if (num <= 40) return '#aaa';
+      return '#b0d840';
+    }
+  </script>
 </body>
 </html>
